@@ -1,5 +1,7 @@
 from auth import logout, login
 from admin import add_employee
+from employee import show_employee_penalties, start_working
+from admin import show_all_penalties
 
 def auth_menu():
     print("""
@@ -40,7 +42,7 @@ def admin_menu():
         elif choice == "2":
             add_employee()
         elif choice == "3":
-            pass
+            show_all_penalties()
         elif choice == "4":
             pass
         elif choice == "5":
@@ -64,9 +66,9 @@ def employee_menu():
     try:
         choice = input("Enter your choice: ")
         if choice == "1":
-            ...
+            start_working()
         elif choice == "2":
-            ...
+            show_employee_penalties()
         elif choice == "3":
             logout()
             return auth_menu()

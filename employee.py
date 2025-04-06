@@ -1,25 +1,45 @@
 from datetime import datetime
-from file_manager import read
+from auth import get_active_user
+from file_manager import write, read
+from utils import generate_id
 
 
 def start_working():
 
-    users = read("users.csv")
-    for user in users:
-        print(user,"\n\n")
-    hozir = datetime.now()
-    text = "09:30"
+    start_time = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+    current_time = datetime.now()
     
-    boshqa_soat = 14
-    boshqa_daqiqa = 30
+    difference = current_time - start_time
+    minutes_passed = difference.total_seconds // 60
+    
+    if minutes_passed > 0:
+        fine = int(minutes_passed) * 1000
+        new_id = generate_id(filename="penalties.csv")
+        user_id = get_active_user()[0]
+        new_penalty = [new_id, user_id, fine, current_time]
+        write(filename="penalties.csv", data=new_penalty, mode="a")
+        print(f"Penalty: {int(minutes_passed)}minutes * 1000 soum = {fine} soum")    
+    else:
+        print("Invalid time")
 
-    boshqa_vaqt = hozir.replace(hour=boshqa_soat, minute=boshqa_daqiqa, second=0, microsecond=0)
 
-    farq = hozir - boshqa_vaqt
+def show_employee_penalties():
+    user_id = get_active_user()[0]
+    penalties = read(filename="penalties.csv")
+    user_penalties = []
+    for penalty in penalties:
+        if penalty[1] == user_id:
+            user_penalties.append(penalty)
+    
+    print_penalties(penalties=user_penalties)
 
-    farq_minutlarda = farq.total_seconds() / 60
-    print(f"Soatlar orasidagi farq: {farq_minutlarda:.2f} minut")
 
 
-
-start_working()
+def print_penalties(penalties: list):
+    total_penalty = 0
+    massage = "All of your penalties: \n\n"
+    for penalty in penalties:
+        total_penalty += int(penalty[2])
+        massage += f"ID: {penalty[0]}, Amount: {penalty[2]} soum Date: {penalty[3]}\n"
+    massage += f"Total penalties: {total_penalty} soum"
+    print(massage)

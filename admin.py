@@ -1,5 +1,6 @@
 from utils import hash_password, generate_id
-from file_manager import write
+from file_manager import write, read
+from employee import print_penalties
 
 def add_employee():
     full_name = input("Enter your name: ")
@@ -17,3 +18,9 @@ def add_employee():
     user = [new_id, full_name, phone_number, hashed_password, start_time, 0]
     write(filename="users.csv", data=user, mode="a")
     print("Employee is added")
+
+
+def show_all_penalties():
+    penalties = read(filename="penalties.csv")
+    print_penalties(penalties=penalties)
+    
