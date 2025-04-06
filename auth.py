@@ -20,7 +20,7 @@ def login():
         if user[2] == phone_number and user[3] == hashed_password:
             users[index][-1] = 1
             write(filename="users.csv", data=users)
-            return user
+            return "user"
     print("Wrong phone number por password")
     return False
     

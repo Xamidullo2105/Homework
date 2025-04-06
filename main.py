@@ -59,7 +59,7 @@ def admin_menu():
 def employee_menu():
     print("""
     1.Start work
-    3.Show all my penalties
+    2.Show all my penalties
     3.Logout
     """)
     

@@ -10,7 +10,7 @@ def start_working():
     current_time = datetime.now()
     
     difference = current_time - start_time
-    minutes_passed = difference.total_seconds // 60
+    minutes_passed = difference.total_seconds() // 60
     
     if minutes_passed > 0:
         fine = int(minutes_passed) * 1000
